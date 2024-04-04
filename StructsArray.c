@@ -46,9 +46,10 @@ int main()
         system("cls");
     };
 
-    //usamos o puts para ja colocara string e pular uma linha para baixo automatico sem colocar o \n
-    puts("alunos");
-    listIntes(usuarios, 3);
+    // usamos o puts para ja colocara string e o \n junto
+    puts("alunos\n");
+    int tamanhoLista = sizeof(usuarios) / sizeof(usuarios[3]);
+    listIntes(usuarios, tamanhoLista);
 
     return 0;
 }
