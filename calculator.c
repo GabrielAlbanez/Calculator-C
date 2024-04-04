@@ -36,6 +36,7 @@ int main(void)
             break;
         case '%':
             Contas[i][2] = remainder(numero1[i], numero2[i]);
+            break;
         case '/':
             if (numero2[i] == 0 || numero1[i] == 0)
             {
