@@ -18,8 +18,9 @@ int i,j
     }
 }
 
-int main(void)
+void CalculatorFunction()
 {
+
     float numero1[50];
     char operador[50][50];
     float numero2[50];
@@ -68,7 +69,7 @@ int main(void)
         }
 
         printf("Deseja realizar mais operacoes? Digite '1' para continuar ou '2' para ver suas contas: ");
-        scanf("%d", &limit);
+        scanf("%d\n", &limit);
 
         i++;
     }
@@ -83,8 +84,13 @@ int main(void)
         printf("numero 1 : %.2f | operador : %s | numero 2 : %.2f  | total : %.2f  |\n", Contas[l][0], operador[l], Contas[l][1], Contas[l][2]);
         printf("-------------------------------------------------\n");
     }
+}
 
-    // aq a gente passa o valor
-    // listeningItems(Contas, i);
-    return 0;
+int main(void)
+{
+
+        CalculatorFunction();
+
+        listeningItems(Contas, i);
+        return 0;
 }
