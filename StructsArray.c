@@ -25,6 +25,7 @@ void listIntes(dataUser user[], int lenght)
 }
 int main()
 {
+    
 
     dataUser usuarios[3];
     int i;

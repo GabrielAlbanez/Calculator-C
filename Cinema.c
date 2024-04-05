@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include <unistd.h>
 
-#define MAX_CLIENTES 2
+#define MAX_CLIENTES 1
 #define MAX_SESSOES 2
 #define MAX_FILMES 2
 #define MAX_INGRESSOS 1
@@ -47,17 +47,39 @@ typedef struct
 
 typedef struct
 {
+
+    char sala[100];
+    char horario[100];
+
+} sessaoClientEscolha;
+
+typedef struct
+{
+
+    char cinema[100];
+    char filmes[100];
+    sessaoClientEscolha sessoes[MAX_SESSOES];
+    float ingressos;
+    int assentos;
+
+} EcolhaClient;
+
+typedef struct
+{
     char name[100];
     int idade;
+    EcolhaClient escolha;
+
 } Cliente;
 
 cinema *createDataCinemas()
 {
+
     cinema *cinemas = malloc(MAX_CINEMAS * sizeof(cinema));
     if (cinemas == NULL)
     {
         fprintf(stderr, "Erro ao alocar o cinemas memória.\n");
-        return 0;
+        return NULL;
     }
 
     puts("Criando cinemas\n");
@@ -70,7 +92,7 @@ cinema *createDataCinemas()
         cinemas[i].id = i + 1;
         for (int j = 0; j < MAX_FILMES; j++)
         {
-            cinemas[i].filmesDisponiveis[j].id = j + 1;
+            cinemas[i].filmesDisponiveis[j].id = j;
             printf("Digite o nome do filme: ");
             scanf("%s", cinemas[i].filmesDisponiveis[j].nome);
             printf("Digite o gênero do filme: ");
@@ -81,7 +103,7 @@ cinema *createDataCinemas()
             scanf("%s", cinemas[i].filmesDisponiveis[j].time);
             for (int s = 0; s < MAX_SESSOES; s++)
             {
-                cinemas[i].filmesDisponiveis[j].sessions[s].id = s + 1;
+                cinemas[i].filmesDisponiveis[j].sessions[s].id = s;
                 printf("Digite o nome da sala: ");
                 scanf("%s", cinemas[i].filmesDisponiveis[j].sessions[s].sala);
                 printf("Digite a hora da sessão (hh:mm): ");
@@ -93,7 +115,7 @@ cinema *createDataCinemas()
 
                 for (int ig = 0; ig < MAX_INGRESSOS; ig++)
                 {
-                    cinemas[i].filmesDisponiveis[j].sessions[s].ingressoSession[ig].id = ig + 1;
+                    cinemas[i].filmesDisponiveis[j].sessions[s].ingressoSession[ig].id = ig;
                     printf("Digite o preço total do ingresso: ");
                     scanf("%f", &cinemas[i].filmesDisponiveis[j].sessions[s].ingressoSession[ig].preco);
                     printf("Digite o preço da meia entrada do ingresso: ");
@@ -127,8 +149,8 @@ void printCinemaData(cinema *cinemas)
                 }
             }
             printf("Filmes e Cinemas Criado com sucesso\n");
-            sleep(10);
-            system("cls");
+            
+            printf("----------------------------------------------------------\n\n");
         }
     }
 }
@@ -136,44 +158,112 @@ void printCinemaData(cinema *cinemas)
 Cliente *createListenincCLientes(cinema *cinema)
 {
 
+    int escolhaCinema;
+    int escolhaFilme;
+    int escolhaSessao;
+
     Cliente *clientes = malloc(MAX_CLIENTES * sizeof(Cliente));
     if (clientes == NULL)
     {
         fprintf(stderr, "Erro ao alocar o cinemas memória.\n");
-        return 0;
+        return NULL;
     }
 
     for (int i = 0; i < MAX_CLIENTES; i++)
     {
+
         printf("Digite seu nome: ");
         scanf("%s", clientes[i].name);
         printf("Digite sua idade: ");
         scanf("%d", &clientes[i].idade);
         system("cls");
         printf("Bem-vindo %s!\n", clientes[i].name);
-
+        printf("Escolha um dos cinemas para assistir um filme:\n");
         for (int j = 0; j < MAX_CINEMAS; j++)
         {
-            printf("Escolha um dos cinemas para assistir um filme:\n");
-            printf("%s\n", cinema[j].nome);
+            printf("%d | %s\n", cinema[j].id, cinema[j].nome);
+        }
+        printf("para escolher basta digitar o numero respectivo ao lado do cinema");
+        scanf("%d", &escolhaCinema);
+        strcpy(clientes[i].escolha.cinema, cinema[escolhaCinema].nome);
+        printf("ecolha abaixo o filme que vc quer assistir");
+        for (int a = 0; a < MAX_FILMES; a++)
+        {
+            printf("%d | %s\n", cinema[escolhaCinema].filmesDisponiveis[a].id, cinema[escolhaCinema].filmesDisponiveis[a].nome);
+        }
+        printf("para escolher basta digitar o numero respectivo ao lado do filme");
+        scanf("%d", &escolhaFilme);
+        strcpy(clientes[i].escolha.filmes, cinema[escolhaCinema].filmesDisponiveis[escolhaFilme].nome);
+        printf("ecolha abaixo o qual sessão do filme vc quer: ");
+
+        for (int s = 0; s < MAX_SESSOES; s++)
+        {
+            printf("ID da Sessão: %d\n", cinema[escolhaCinema].filmesDisponiveis[escolhaFilme].sessions[s].id);
+            printf("Sala: %s\n", cinema[escolhaCinema].filmesDisponiveis[escolhaFilme].sessions[s].sala);
+            printf("Horário: %s\n", cinema[escolhaCinema].filmesDisponiveis[escolhaFilme].sessions[s].hora);
+            printf("Quantidade de Assentos Disponíveis: %d\n", cinema[escolhaCinema].filmesDisponiveis[escolhaFilme].sessions[s].quantidadeAssentos);
+          
+        }
+        printf("para escolher basta digitar o numero respectivo ao lado da sessao");
+        scanf("%d", &escolhaSessao);
+        strcpy(clientes[i].escolha.sessoes->sala, cinema[escolhaCinema].filmesDisponiveis[escolhaFilme].sessions[escolhaSessao].sala);
+        strcpy(clientes[i].escolha.sessoes->horario, cinema[escolhaCinema].filmesDisponiveis[escolhaFilme].sessions[escolhaSessao].hora);
+        printf("ecolha o numero de assento de acordo com o que tem no maximo");
+        scanf("%d", &clientes[i].escolha.assentos);
+
+        // printf("ecolha o seu ingresso");
+        // for (int ig = 0; ig < MAX_INGRESSOS; ig++)
+        // {
+        //     printf("%d", cinema[escolhaCinema].filmesDisponiveis[escolhaFilme].sessions[escolhaSessao].ingressoSession[ig].id);
+        //     printf("%f\n", cinema[escolhaCinema].filmesDisponiveis[escolhaFilme].sessions[escolhaSessao].ingressoSession[ig].preco);
+        //     printf("%f\n", cinema[escolhaCinema].filmesDisponiveis[escolhaFilme].sessions[escolhaSessao].ingressoSession[ig].preco_faxetaria);
+        // }
+
+        // printf("para escolher basta digitar o numero respectivo ao lado do ingresso");
+        // scanf("%d", &escolhaIngresso);
+        if (clientes[i].idade <= 17)
+        {
+            clientes[i].escolha.ingressos = cinema[escolhaCinema].filmesDisponiveis[escolhaFilme].sessions[escolhaSessao].ingressoSession[1].preco_faxetaria;
+        }
+        else
+        {
+            clientes[i].escolha.ingressos = cinema[escolhaCinema].filmesDisponiveis[escolhaFilme].sessions[escolhaSessao].ingressoSession[0].preco;
         }
     }
 
-    return clientes; // Retorna o ponteiro para a estrutura de clientes
+    return clientes;
+}
+
+void listeningClientes(Cliente *clientes)
+{
+    printf("\n\nDados dos clientes:\n");
+    printf("==========================================================\n");
+
+    for (int i = 0; i < MAX_CLIENTES; i++)
+    {
+        printf("Cliente %d\n", i + 1);
+        printf("Nome: %s\n", clientes[i].name);
+        printf("Idade: %d\n", clientes[i].idade);
+        printf("Escolha:\n");
+        printf("Cinema: %s\n", clientes[i].escolha.cinema);
+        printf("Filme: %s\n", clientes[i].escolha.filmes);
+        printf("Sessão:\n");
+        printf("Sala: %s\n", clientes[i].escolha.sessoes[0].sala);
+        printf("Horário: %s\n", clientes[i].escolha.sessoes[0].horario);
+        printf("Número do Assento: %d\n", clientes[i].escolha.assentos);
+        printf("Preço do Ingresso: %.2f\n", clientes[i].escolha.ingressos);
+        printf("----------------------------------------------------------\n");
+    }
 }
 
 int main(void)
 {
+    setlocale(LC_ALL, "portuguese");
+
     cinema *cinemas = createDataCinemas();
-    Cliente *clientes = createListenincCLientes(cinemas);
-    if (clientes == NULL)
-    {
-        // Tratar erro de alocação de memória para clientes
-        // Por exemplo, imprimir uma mensagem de erro e sair do programa
-        fprintf(stderr, "Erro ao criar clientes.\n");
-        return 1;
-    }
     printCinemaData(cinemas);
+    Cliente *cliente = createListenincCLientes(cinemas);
+    listeningClientes(cliente);
     free(cinemas);
     return 0;
 }
