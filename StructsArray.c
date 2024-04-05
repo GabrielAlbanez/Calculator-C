@@ -4,14 +4,12 @@
 #define TAM 50
 #include <stdlib.h>
 
-struct DataUser
+typedef struct DataUser
 {
     char nome[50];
     int idade;
     float peso;
-};
-
-typedef struct DataUser dataUser;
+} dataUser;
 
 void listIntes(dataUser user[], int lenght)
 {
