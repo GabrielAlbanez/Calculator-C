@@ -162,7 +162,7 @@ void printCinemaData(cinema *cinemas)
     }
 }
 
-Cliente *createListenincCLientes(cinema *cinema)
+Cliente *createCLientes(cinema *cinema)
 {
 
     int escolhaCinema;
@@ -263,7 +263,7 @@ int main(void)
 
     cinema *cinemas = createDataCinemas();
     printCinemaData(cinemas);
-    Cliente *cliente = createListenincCLientes(cinemas);
+    Cliente *cliente = createCLientes(cinemas);
     listeningClientes(cliente);
     free(cinemas);
     return 0;
