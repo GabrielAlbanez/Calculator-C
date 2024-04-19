@@ -3,20 +3,22 @@
 
 // assim que faz para listar os intens de uma matriz
 // passa ela com o valor de quanntas colunas tem e o tamanho da array
-void listeningItems(float contas[][3], int sizeLengthList)
-int i,j;
-{
-    for ( i = 0; i < sizeLengthList; i++)
 
-    {
-        printf("indice %d\n",i);
-        for ( j = 0; j < 3; j++)
-        {
-            printf("%.2f ", contas[i][j]);
-        }
-        printf("\n");
-    }
-}
+
+// void listeningItems(float contas[][3], int sizeLengthList)
+// int i,j;
+// {
+//     for ( i = 0; i < sizeLengthList; i++)
+
+//     {
+//         printf("indice %d\n",i);
+//         for ( j = 0; j < 3; j++)
+//         {
+//             printf("%.2f ", contas[i][j]);
+//         }
+//         printf("\n");
+//     }
+// }
 
 void CalculatorFunction()
 {
@@ -91,6 +93,6 @@ int main(void)
 
         CalculatorFunction();
 
-        listeningItems(Contas, i);
+        // listeningItems(Contas, i);
         return 0;
 }
