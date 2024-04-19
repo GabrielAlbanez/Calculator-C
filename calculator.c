@@ -4,7 +4,7 @@
 // assim que faz para listar os intens de uma matriz
 // passa ela com o valor de quanntas colunas tem e o tamanho da array
 void listeningItems(float contas[][3], int sizeLengthList)
-int i,j
+int i,j;
 {
     for ( i = 0; i < sizeLengthList; i++)
 
